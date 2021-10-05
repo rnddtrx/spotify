@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: Mon Spotify API
+  description: >
+    C'est mon API Spotify
+  termsOfService: Exemple 
+  contact:
+    email: renaud.dutrieux@hainaut-promsoc.be
+  version: 1.0.0
+externalDocs:
+  description: Any document link you want to generate along with API.
+  url: http://swagger.io
+servers:
+  - url: https://test.ipam.be/v1
+tags:
+  - name: song
+    description: My Song
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
+  - name: artist
+    description: My Artist
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
+
+paths:
+  /api/v1/songs/{songId}:
+    get:
+      tags:
+        - song
+      summary: Returns the song
+      description: Returns the song
+      operationId: getSongById
+      parameters:
+        - name: songId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        404:
+          description: Given song ID doesn't exist
+          content: {}
+    delete:
+      tags:
+        - song
+      summary: Delete the song
+      description: Deletes the song
+      operationId: deleteSong
+      parameters:
+        - name: songId
+          in: path
+          description: song id
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Given song ID doesn't exist
+          content: {}
+  /api/v1/songs/{songId}/artists:
+    get:
+      tags:
+        - song
+      summary: Returns the artists
+      description: Returns the artists of a song
+      operationId: getArtistsBySongId
+      parameters:
+        - name: songId
+          in: path
+          description: song Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artist'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artist'
+        404:
+          description: Given customer ID doesn't exist
+          content: {}
+  /api/v1/artists/{artistId}:
+    get:
+      tags:
+        - artist
+      summary: Returns the artist
+      description: Returns the artist
+      operationId: getArtistById
+      parameters:
+        - name: artistId
+          in: path
+          description: Artist Identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        404:
+          description: Given song ID doesn't exist
+          content: {}
+components:
+  schemas:
+    Song:
+      description: A Song Class
+      type: object
+      properties:
+        songId:
+          description: id
+          type: integer
+          format: int64
+        name:
+          description: name.
+          type: string
+        artists:
+          description: Collection of Artist.
+          type: array
+          items:
+            $ref: '#/components/schemas/Artist'
+    Artist:
+      description: A artist Class
+      type: object
+      properties:
+        artistId:
+          description: id
+          type: integer
+          format: int64
+        name:
+          description: name.
+          type: string
+        songs:
+          description: Collection of Song.
+          type: array
+          items:
+            $ref: '#/components/schemas/Song'

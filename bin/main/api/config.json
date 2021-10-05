@@ -1,0 +1,31 @@
+{
+
+  "library": "spring-mvc",
+
+  "dateLibrary": "java8",
+
+  "hideGenerationTimestamp": true,
+
+  "modelPackage": "be.ipam.spotify.api.model",
+
+  "apiPackage": "be.ipam.spotify.api",
+
+  "invokerPackage": "be.ipam.spotify.api",
+
+  "serializableModel": true,
+
+  "useTags": true,
+
+  "useGzipFeature" : true,
+
+  "hateoas": true,
+
+  "withXml": true,
+  
+  "importMappings": {
+
+      "Link": "org.springframework.hateoas.Link"
+
+  }
+
+}
