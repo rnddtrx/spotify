@@ -5,10 +5,8 @@
  */
 package be.ipam.spotify.api;
 
-import be.ipam.spotify.api.model.Artist;
-import be.ipam.spotify.api.model.Song;
-
 import java.math.BigDecimal;
+import be.ipam.spotify.api.model.Song;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,6 +38,25 @@ public interface SongApi {
     }
 
     /**
+     * POST /api/v1/songs : Create the song
+     * Create the song
+     *
+     * @param song song object (optional)
+     * @return created (status code 201)
+     */
+    @ApiOperation(value = "Create the song", nickname = "createSong", notes = "Create the song", tags={ "song", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "created") })
+    @RequestMapping(value = "/api/v1/songs",
+        consumes = { "application/xml", "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<Song> createSong(@ApiParam(value = "song object"  )  @Valid @RequestBody(required = false) Song song) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
      * DELETE /api/v1/songs/{songId} : Delete the song
      * Deletes the song
      *
@@ -60,41 +77,6 @@ public interface SongApi {
 
 
     /**
-     * GET /api/v1/songs/{songId}/artists : Returns the artists
-     * Returns the artists of a song
-     *
-     * @param songId song Identifier (required)
-     * @return successful operation (status code 200)
-     *         or Given customer ID doesn&#39;t exist (status code 404)
-     */
-    @ApiOperation(value = "Returns the artists", nickname = "getArtistsBySongId", notes = "Returns the artists of a song", response = Artist.class, responseContainer = "List", tags={ "song", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Artist.class, responseContainer = "List"),
-        @ApiResponse(code = 404, message = "Given customer ID doesn't exist") })
-    @RequestMapping(value = "/api/v1/songs/{songId}/artists",
-        produces = { "application/xml", "application/json" }, 
-        method = RequestMethod.GET)
-    default ResponseEntity<List<Artist>> getArtistsBySongId(@ApiParam(value = "song Identifier",required=true) @PathVariable("songId") String songId) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"songs\" : [ { \"artists\" : [ null, null ], \"name\" : \"name\", \"songId\" : 6 }, { \"artists\" : [ null, null ], \"name\" : \"name\", \"songId\" : 6 } ], \"name\" : \"name\", \"artistId\" : 0 }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                    String exampleString = "<null> <artistId>123456789</artistId> <name>aeiou</name> </null>";
-                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
      * GET /api/v1/songs/{songId} : Returns the song
      * Returns the song
      *
@@ -109,6 +91,26 @@ public interface SongApi {
     @RequestMapping(value = "/api/v1/songs/{songId}",
         method = RequestMethod.GET)
     default ResponseEntity<Song> getSongById(@ApiParam(value = "Customer Identifier",required=true) @PathVariable("songId") Integer songId) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /api/v1/songs/{songId} : Update the song
+     * Update the song
+     *
+     * @param songId song id (required)
+     * @param song song object (optional)
+     * @return updated (status code 200)
+     */
+    @ApiOperation(value = "Update the song", nickname = "updateSong", notes = "Update the song", tags={ "song", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "updated") })
+    @RequestMapping(value = "/api/v1/songs/{songId}",
+        consumes = { "application/xml", "application/json" },
+        method = RequestMethod.PUT)
+    default ResponseEntity<Void> updateSong(@ApiParam(value = "song id",required=true) @PathVariable("songId") BigDecimal songId,@ApiParam(value = "song object"  )  @Valid @RequestBody(required = false) Song song) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

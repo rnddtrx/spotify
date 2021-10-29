@@ -31,12 +31,15 @@ public class ArtistsController implements ArtistApi {
 		  }
 	
 	@Override
-	
-	
 	public ResponseEntity<Artist> getArtistById(Long artistId) {
 		//Optional<ArtistEntity> ae = service.artistByArtistId(artistId);
 		//log.info(ae.get().getSongs().toString());
+		log.info("getArtist");
 		return service.artistByArtistId(artistId).map(assembler::toModel).map(ResponseEntity::ok).orElse(notFound().build());
 	}
+	
+	
+	
+	
 
 }

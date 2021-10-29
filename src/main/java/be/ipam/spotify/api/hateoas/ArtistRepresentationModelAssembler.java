@@ -2,6 +2,7 @@ package be.ipam.spotify.api.hateoas;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
@@ -33,13 +34,9 @@ public class ArtistRepresentationModelAssembler extends RepresentationModelAssem
 		Artist resource = createModelWithId(entity.getArtistId(), entity);
 	    BeanUtils.copyProperties(entity, resource);
 	    
-	    
 	    resource.artistId(entity.getArtistId())
-        .songs(songService.toModelList(entity.getSongs()));
-	    
-
-	    
-	    
+        .songs(songService.toModelList(entity.getSongs()).stream().collect(Collectors.toList()));
+	    	    
 	    System.out.println("resource = " + resource);
 	    
 	    return resource;

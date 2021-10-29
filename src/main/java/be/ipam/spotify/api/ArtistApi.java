@@ -5,6 +5,9 @@
  */
 package be.ipam.spotify.api;
 
+import be.ipam.spotify.api.model.Artist;
+import java.math.BigDecimal;
+import be.ipam.spotify.api.model.Song;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import be.ipam.spotify.api.model.Artist;
-
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
@@ -36,6 +37,45 @@ public interface ArtistApi {
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    /**
+     * POST /api/v1/artists : Create the artist
+     * Create the artist
+     *
+     * @param artist artist object (optional)
+     * @return created (status code 201)
+     */
+    @ApiOperation(value = "Create the artist", nickname = "createArtist", notes = "Create the artist", tags={ "artist", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 201, message = "created") })
+    @RequestMapping(value = "/api/v1/artists",
+        consumes = { "application/xml", "application/json" },
+        method = RequestMethod.POST)
+    default ResponseEntity<Void> createArtist(@ApiParam(value = "artist object"  )  @Valid @RequestBody(required = false) Artist artist) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * DELETE /api/v1/artists/{artistId} : Delete the artist
+     * Deletes the song
+     *
+     * @param artistId artist id (required)
+     * @return successful operation (status code 204)
+     *         or Given song ID doesn&#39;t exist (status code 404)
+     */
+    @ApiOperation(value = "Delete the artist", nickname = "deleteArtist", notes = "Deletes the song", tags={ "artist", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 204, message = "successful operation"),
+        @ApiResponse(code = 404, message = "Given song ID doesn't exist") })
+    @RequestMapping(value = "/api/v1/artists/{artistId}",
+        method = RequestMethod.DELETE)
+    default ResponseEntity<Void> deleteArtist(@ApiParam(value = "artist id",required=true) @PathVariable("artistId") BigDecimal artistId) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     /**
      * GET /api/v1/artists/{artistId} : Returns the artist
@@ -52,6 +92,26 @@ public interface ArtistApi {
     @RequestMapping(value = "/api/v1/artists/{artistId}",
         method = RequestMethod.GET)
     default ResponseEntity<Artist> getArtistById(@ApiParam(value = "Artist Identifier",required=true) @PathVariable("artistId") Long artistId) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * PUT /api/v1/artists/{artistId} : Update the artist
+     * Update the artist
+     *
+     * @param artistId song id (required)
+     * @param song song object (optional)
+     * @return updated (status code 200)
+     */
+    @ApiOperation(value = "Update the artist", nickname = "updateArtist", notes = "Update the artist", tags={ "artist", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "updated") })
+    @RequestMapping(value = "/api/v1/artists/{artistId}",
+        consumes = { "application/xml", "application/json" },
+        method = RequestMethod.PUT)
+    default ResponseEntity<Void> updateArtist(@ApiParam(value = "song id",required=true) @PathVariable("artistId") BigDecimal artistId,@ApiParam(value = "song object"  )  @Valid @RequestBody(required = false) Song song) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

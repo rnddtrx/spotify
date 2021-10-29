@@ -1,7 +1,9 @@
 package be.ipam.spotify.api.model;
 
 import java.util.Objects;
+import be.ipam.spotify.api.model.Album;
 import be.ipam.spotify.api.model.Artist;
+import be.ipam.spotify.api.model.PlaylistSong;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
@@ -39,6 +41,15 @@ public class Song extends RepresentationModel<Song>  implements Serializable {
   @JacksonXmlProperty(localName = "artists")
   @Valid
   private List<Artist> artists = null;
+
+  @JsonProperty("album")
+  @JacksonXmlProperty(localName = "album")
+  private Album album;
+
+  @JsonProperty("playlistSongs")
+  @JacksonXmlProperty(localName = "playlistSongs")
+  @Valid
+  private List<PlaylistSong> playlistSongs = null;
 
   public Song songId(Long songId) {
     this.songId = songId;
@@ -94,10 +105,10 @@ public class Song extends RepresentationModel<Song>  implements Serializable {
   }
 
   /**
-   * Collection of Artist.
+   * Collection of Song.
    * @return artists
   */
-  @ApiModelProperty(value = "Collection of Artist.")
+  @ApiModelProperty(value = "Collection of Song.")
 
   @Valid
 
@@ -107,6 +118,56 @@ public class Song extends RepresentationModel<Song>  implements Serializable {
 
   public void setArtists(List<Artist> artists) {
     this.artists = artists;
+  }
+
+  public Song album(Album album) {
+    this.album = album;
+    return this;
+  }
+
+  /**
+   * Get album
+   * @return album
+  */
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Album getAlbum() {
+    return album;
+  }
+
+  public void setAlbum(Album album) {
+    this.album = album;
+  }
+
+  public Song playlistSongs(List<PlaylistSong> playlistSongs) {
+    this.playlistSongs = playlistSongs;
+    return this;
+  }
+
+  public Song addPlaylistSongsItem(PlaylistSong playlistSongsItem) {
+    if (this.playlistSongs == null) {
+      this.playlistSongs = new ArrayList<>();
+    }
+    this.playlistSongs.add(playlistSongsItem);
+    return this;
+  }
+
+  /**
+   * Collection of PlaylistSong.
+   * @return playlistSongs
+  */
+  @ApiModelProperty(value = "Collection of PlaylistSong.")
+
+  @Valid
+
+  public List<PlaylistSong> getPlaylistSongs() {
+    return playlistSongs;
+  }
+
+  public void setPlaylistSongs(List<PlaylistSong> playlistSongs) {
+    this.playlistSongs = playlistSongs;
   }
 
 
@@ -121,12 +182,14 @@ public class Song extends RepresentationModel<Song>  implements Serializable {
     Song song = (Song) o;
     return Objects.equals(this.songId, song.songId) &&
         Objects.equals(this.name, song.name) &&
-        Objects.equals(this.artists, song.artists);
+        Objects.equals(this.artists, song.artists) &&
+        Objects.equals(this.album, song.album) &&
+        Objects.equals(this.playlistSongs, song.playlistSongs);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(songId, name, artists);
+    return Objects.hash(songId, name, artists, album, playlistSongs);
   }
 
   @Override
@@ -137,6 +200,8 @@ public class Song extends RepresentationModel<Song>  implements Serializable {
     sb.append("    songId: ").append(toIndentedString(songId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    artists: ").append(toIndentedString(artists)).append("\n");
+    sb.append("    album: ").append(toIndentedString(album)).append("\n");
+    sb.append("    playlistSongs: ").append(toIndentedString(playlistSongs)).append("\n");
     sb.append("}");
     return sb.toString();
   }

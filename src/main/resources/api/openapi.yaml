@@ -1,30 +1,69 @@
 openapi: 3.0.3
 info:
-  title: Mon Spotify API
+  title: Démo Spotify
   description: >
-    C'est mon API Spotify
-  termsOfService: Exemple 
+    Application de démonstration.
+  termsOfService: Exemple
   contact:
     email: renaud.dutrieux@hainaut-promsoc.be
   version: 1.0.0
 externalDocs:
-  description: Any document link you want to generate along with API.
-  url: http://swagger.io
+  description: Github du projet
+  url: https://github.com/rnddtrx/spotify
 servers:
-  - url: https://test.ipam.be/v1
+  - url: http://localhost:8080
 tags:
   - name: song
-    description: My Song
+    description: Une chanson
     externalDocs:
       description: Find out more (extra document link)
       url: http://swagger.io
   - name: artist
-    description: My Artist
+    description: Un artist
     externalDocs:
       description: Find out more (extra document link)
       url: http://swagger.io
-
+  - name: album
+    description: Un album
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
+  - name: playlist
+    description: Une playlist
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
+  - name: playlistSong
+    description: Une chanson dans une playlist (Item)
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
+  - name: userapp
+    description: Un utilistateur
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
 paths:
+  /api/v1/songs:
+    post:
+      tags:
+       - song
+      summary: Create the song
+      description: Create the song
+      operationId: createSong
+      requestBody:
+        description: song object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Song'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
+      responses:
+        201:
+          description: created
+          content: {}
   /api/v1/songs/{songId}:
     get:
       tags:
@@ -65,36 +104,51 @@ paths:
         404:
           description: Given song ID doesn't exist
           content: {}
-  /api/v1/songs/{songId}/artists:
-    get:
+    put:
       tags:
-        - song
-      summary: Returns the artists
-      description: Returns the artists of a song
-      operationId: getArtistsBySongId
+       - song
+      summary: Update the song
+      description: Update the song
+      operationId: updateSong
       parameters:
         - name: songId
           in: path
-          description: song Identifier
+          description: song id
           required: true
           schema:
-            type: string
+            type: number
+      requestBody:
+        description: song object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Song'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
       responses:
         200:
-          description: successful operation
-          content:
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Artist'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Artist'
-        404:
-          description: Given customer ID doesn't exist
+          description: updated
+          content: {}
+  /api/v1/artists:
+    post:
+      tags:
+       - artist
+      summary: Create the artist
+      description: Create the artist
+      operationId: createArtist
+      requestBody:
+        description: artist object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Artist'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Artist'
+      responses:
+        201:
+          description: created
           content: {}
   /api/v1/artists/{artistId}:
     get:
@@ -117,6 +171,309 @@ paths:
         404:
           description: Given song ID doesn't exist
           content: {}
+    delete:
+      tags:
+        - artist
+      summary: Delete the artist
+      description: Deletes the song
+      operationId: deleteArtist
+      parameters:
+        - name: artistId
+          in: path
+          description: artist id
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Given song ID doesn't exist
+          content: {}
+    put:
+      tags:
+       - artist
+      summary: Update the artist
+      description: Update the artist
+      operationId: updateArtist
+      parameters:
+        - name: artistId
+          in: path
+          description: song id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: song object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Song'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Song'
+      responses:
+        200:
+          description: updated
+          content: {}
+  /api/v1/albums:
+    post:
+      tags:
+       - album
+      summary: Create the album
+      description: Create the album
+      operationId: createAlbum
+      requestBody:
+        description: album object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Album'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+      responses:
+        201:
+          description: created
+          content: {}
+  /api/v1/album/{albumId}:
+    get:
+      tags:
+        - album
+      summary: Returns the album
+      description: Returns the album
+      operationId: getAlbumById
+      parameters:
+        - name: albumId
+          in: path
+          description: Album Identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        404:
+          description: Given album ID doesn't exist
+          content: {}
+    delete:
+      tags:
+        - album
+      summary: Delete the artist
+      description: Deletes the song
+      operationId: deleteAlbum
+      parameters:
+        - name: albumId
+          in: path
+          description: album id
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Given album ID doesn't exist
+          content: {}
+    put:
+      tags:
+       - album
+      summary: Update the album
+      description: Update the album
+      operationId: updateAlbum
+      parameters:
+        - name: albumId
+          in: path
+          description: album id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: album object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Album'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Album'
+      responses:
+        200:
+          description: updated
+          content: {}
+  /api/v1/playlists:
+    post:
+      tags:
+       - playlist
+      summary: Create the playlist
+      description: Create the playlist
+      operationId: createPlaylist
+      requestBody:
+        description: playylist object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Playlist'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Playlist'
+      responses:
+        201:
+          description: created
+          content: {}
+  /api/v1/playlists/{playlistId}:
+    get:
+      tags:
+        - playlist
+      summary: Returns the playlist
+      description: Returns the playlist
+      operationId: getPlaylistById
+      parameters:
+        - name: playlistId
+          in: path
+          description: Playlist Identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        404:
+          description: Given playlist ID doesn't exist
+          content: {}
+    delete:
+      tags:
+        - playlist
+      summary: Delete the playlist
+      description: Deletes the playlist
+      operationId: deletePlaylist
+      parameters:
+        - name: playlistId
+          in: path
+          description: album id
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Given album ID doesn't exist
+          content: {}
+    put:
+      tags:
+       - playlist
+      summary: Update the playlist
+      description: Update the playlist
+      operationId: updatePlaylist
+      parameters:
+        - name: playlistId
+          in: path
+          description: playlist id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: playlist object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Playlist'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Playlist'
+      responses:
+        200:
+          description: updated
+          content: {}
+  /api/v1/playlistSongs:
+    post:
+      tags:
+       - playlistSong
+      summary: Create the playlistsong
+      description: Create the playlistsong
+      operationId: createPlaylistSong
+      requestBody:
+        description: song object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PlaylistSong'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistSong'
+      responses:
+        201:
+          description: created
+          content: {}
+  /api/v1/playlistSongs/{playlistSongId}:
+    get:
+      tags:
+        - playlistSong
+      summary: Returns the playlistsongs
+      description: Returns the playlistsong
+      operationId: getPlaylistSongById
+      parameters:
+        - name: playlistSongId
+          in: path
+          description: Playlistsong Identifier
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content: {}
+        404:
+          description: Given playlist ID doesn't exist
+          content: {}
+    delete:
+      tags:
+        - playlistSong
+      summary: Delete the playlistSong
+      description: Deletes the playlistsong
+      operationId: deletePlaylistSong
+      parameters:
+        - name: playlistSongId
+          in: path
+          description: album id
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Given album ID doesn't exist
+          content: {}
+    put:
+      tags:
+       - playlistSong
+      summary: Update the playlistSong
+      description: Update the playlistSong
+      operationId: updatePlaylistSong
+      parameters:
+        - name: playlistSongId
+          in: path
+          description: playlistSong id
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: playlistsong object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/PlaylistSong'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaylistSong'
+      responses:
+        200:
+          description: updated
+          content: {}
 components:
   schemas:
     Song:
@@ -131,10 +488,17 @@ components:
           description: name.
           type: string
         artists:
-          description: Collection of Artist.
+          description: Collection of Song.
           type: array
           items:
             $ref: '#/components/schemas/Artist'
+        album:
+            $ref: '#/components/schemas/Album'
+        playlistSongs:
+          description: Collection of PlaylistSong.
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistSong'
     Artist:
       description: A artist Class
       type: object
@@ -151,3 +515,64 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Song'
+    Album:
+      description: A album Class
+      type: object
+      properties:
+        albumId:
+          description: id
+          type: integer
+          format: int64
+        name:
+          description: name.
+          type: string
+        songs:
+          description: Collection of Song.
+          type: array
+          items:
+            $ref: '#/components/schemas/Song'
+    Playlist:
+      description: A playlist Class
+      type: object
+      properties:
+        playlistId:
+          description: id
+          type: integer
+          format: int64
+        name:
+          description: name.
+          type: string
+        playlistSongs:
+          description: Collection of PlaylistSong.
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistSong'
+    PlaylistSong:
+      description: A playlistsong Class
+      type: object
+      properties:
+        playlistSongId:
+          description: id
+          type: integer
+          format: int64
+        position:
+            description: possition in the PL
+            type: integer
+        playlist:
+            $ref: '#/components/schemas/Playlist'
+        song:
+            $ref: '#/components/schemas/Song'
+    Userapp:
+      description: A userapp Class
+      type: object
+      properties:
+        userappId:
+          description: id
+          type: integer
+          format: int64
+        login:
+          description: login.
+          type: string
+        password:
+          description: password.
+          type: string

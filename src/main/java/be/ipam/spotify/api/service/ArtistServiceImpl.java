@@ -38,7 +38,7 @@ public class ArtistServiceImpl implements ArtistService {
 	  }
 
 	@Override
-	public List<Artist> toModelList(Set<ArtistEntity> artists) {
+	public List<Artist> toModelList(List<ArtistEntity> artists) {
 		if (Objects.isNull(artists)) {
 			return Collections.emptyList();
 		}

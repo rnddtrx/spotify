@@ -10,7 +10,7 @@ import be.ipam.spotify.api.model.Artist;
 public interface ArtistService {
 	public Optional<ArtistEntity> artistByArtistId(long artistId);
 
-	public List<Artist> toModelList(Set<ArtistEntity> artists);
+	public List<Artist> toModelList(List<ArtistEntity> list);
 
 	Artist toModel(ArtistEntity e);
 }
